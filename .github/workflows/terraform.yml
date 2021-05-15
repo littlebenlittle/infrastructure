@@ -26,9 +26,6 @@ jobs:
       - name: unzip
         run: |
           unzip terraform_0.15.3_linux_amd64.zip
-      - name: link
-        run: |
-          ln -s terraform $HOME/.local/bin/terraform
       - name: tf-plan
         run: |
-          terraform plan
+          ./terraform plan
