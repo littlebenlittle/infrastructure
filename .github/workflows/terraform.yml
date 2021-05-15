@@ -22,4 +22,5 @@ jobs:
           ls
       - name: tf-plan
         run: |
+          cd gcp
           ./terraform plan
