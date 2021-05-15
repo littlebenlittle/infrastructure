@@ -17,6 +17,10 @@ jobs:
       - name: unzip
         run: |
           unzip terraform_0.15.3_linux_amd64.zip
+      - name: tf-init
+        run: |
+          cd gcp
+          ../terraform init
       - name: tf-plan
         run: |
           cd gcp
