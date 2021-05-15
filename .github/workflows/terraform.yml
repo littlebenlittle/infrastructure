@@ -27,7 +27,6 @@ jobs:
       - name: check-hash
         run: |
           diff <(sha256sum terraform_0.15.3_linux_amd64.zip) <(echo "5ce5834fd74e3368ad7bdaac847f973e66e61acae469ee86b88da4c6d9f933d4  terraform_0.15.3_linux_amd64.zip")
-          if [ ! -z "$?" ]; then echo "hashes did not match"; exit 1; fi
       - name: unzip
         run: |
           tar -xf terraform_0.15.3_linux_amd64.zip
