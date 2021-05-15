@@ -1,0 +1,35 @@
+# This is a basic workflow to help you get started with Actions
+
+name: terraform
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the dev branch
+  push:
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - name: fetch-terraform
+        run: |
+          wget https://releases.hashicorp.com/terraform/0.15.3/terraform_0.15.3_linux_amd64.zip
+          diff <(sha256sum terraform_0.15.3_linux_amd64.zip) <(echo "5ce5834fd74e3368ad7bdaac847f973e66e61acae469ee86b88da4c6d9f933d4")
+          if [ !-z "$?" ]; then echo "hashes did not match"; exit 1; fi
+          tar -xf terraform_0.15.3_linux_amd64.zip
+          ln -s terraform $HOME/.local/bin/terraform
+
+      # Runs a set of commands using the runners shell
+      - name: tf-plan
+        run: |
+          terraform plan
