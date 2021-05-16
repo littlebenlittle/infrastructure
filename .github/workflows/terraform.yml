@@ -1,6 +1,9 @@
 name: terraform
 
 on:
+  push:
+    branches:
+      - setup-initial-gcp-resources
   workflow_dispatch:
 
 jobs:
@@ -27,7 +30,7 @@ jobs:
           CONFIG=$PWD/gcp/terraform.tfvars
           echo "$TERRAFORM_SVCACCT_BASE64" | base64 -d >$SVCACCT
           echo "$TERRAFORM_CONFIG_BASE64"  | base64 -d >$CONFIG
-          sed -i -e "s/TERRAFORM_SVCACCT/$(echo $SVCACCT | sed -e 's/\//\\\//g')/"
+          sed -i -e "s/TERRAFORM_SVCACCT/$(echo $SVCACCT | sed -e 's/\//\\\//g')/" $CONFIG
       - name: terraform-plan
         run: |
           cd gcp
