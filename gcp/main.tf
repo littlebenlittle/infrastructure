@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket  = "tf-state-staging-wfxk98m4"
+    prefix  = "terraform/state"
+  }
+}
+
 provider "google" {
   project     = var.gcp_project
   region      = var.gcp_compute_region
