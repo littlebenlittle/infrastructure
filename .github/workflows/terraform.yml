@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: fetch
+      - name: fetch-terraform-binary
         run: |
           wget https://releases.hashicorp.com/terraform/0.15.3/terraform_0.15.3_linux_amd64.zip
       - name: check-hash
@@ -17,11 +17,18 @@ jobs:
       - name: unzip
         run: |
           unzip terraform_0.15.3_linux_amd64.zip
-      - name: tf-init
+      - name: terraform-init
         run: |
           cd gcp
           ../terraform init
-      - name: tf-plan
+      - name: terraform-configure
+        run: |
+          SVCACCT=$HOME/svcacct.json
+          CONFIG=$PWD/gcp/terraform.tfvars
+          echo "$TERRAFORM_SVCACCT_BASE64" | base64 -d >$SVCACCT
+          echo "$TERRAFORM_CONFIG_BASE64"  | base64 -d >$CONFIG
+          sed -i -e "s/TERRAFORM_SVCACCT/$SVCACCT/" $CONFIG
+      - name: terraform-plan
         run: |
           cd gcp
-          ../terraform plan
+          ../terraform apply
