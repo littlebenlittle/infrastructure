@@ -1,5 +1,4 @@
 locals {
-  iap_cidr     = "35.235.240.0/20"
   cloud_config = <<-EOT
     #cloud-config
     write_files:

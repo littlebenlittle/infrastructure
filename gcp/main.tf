@@ -14,16 +14,16 @@ provider "google" {
 
 module "network" {
   source          = "./network"
-  network_name    = var.gcp_docker_subnetwork_name
-  subnetwork_name = var.gcp_docker_subnetwork_name
-  allow_ssh_cidr  = locals.gcp_iap_cidr
+  network_name    = var.gcp_network_name
+  subnetwork_name = var.gcp_subnetwork_name
+  allow_ssh_cidr  = [local.gcp_iap_cidr]
 }
 
-module "ipfs-node" {
-  source       = "./ipfs-node"
-  subnetwork   = var.gcp_docker_subnetwork_name
+module "docker_host" {
+  source       = "./gcp-docker-host"
+  subnetwork   = var.gcp_subnetwork_name
   machine_type = var.gcp_docker_host_machine_type
   hostname     = var.gcp_docker_host_hostname
-  external_ip  = var.gcp_docker_host_external_ip
+  external_ip  = ""
   disk_size    = var.gcp_docker_host_disk_size
 }
