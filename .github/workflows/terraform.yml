@@ -26,11 +26,11 @@ jobs:
           ../terraform init
       - name: terraform-configure
         run: |
-          SVCACCT=$HOME/svcacct.json
+          echo "$TERRAFORM_SVCACCT_BASE64" | base64 -d >$GOOGLE_APPLICATION_CREDENTIALS
           CONFIG=$PWD/gcp/terraform.tfvars
-          echo "$TERRAFORM_SVCACCT_BASE64" | base64 -d >$SVCACCT
           echo "$TERRAFORM_CONFIG_BASE64"  | base64 -d >$CONFIG
-          sed -i -e "s/TERRAFORM_SVCACCT/$(echo $SVCACCT | sed -e 's/\//\\\//g')/" $CONFIG
+          SED_SAFE_SVCACCT=$(echo $GOOGLE_APPLICATION_CREDENTIALS | sed -e 's/\//\\\//g')
+          sed -i -e "s/TERRAFORM_SVCACCT/$SED_SAFE_SVCACCT/" $CONFIG
       - name: terraform-plan
         run: |
           cd gcp
