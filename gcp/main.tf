@@ -20,7 +20,7 @@ module "network" {
 }
 
 module "docker_host" {
-  source       = "./gcp-docker-host"
+  source       = "./docker-host"
   subnetwork   = var.gcp_subnetwork_name
   machine_type = var.gcp_docker_host_machine_type
   hostname     = var.gcp_docker_host_hostname

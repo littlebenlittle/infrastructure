@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 **/.env
 tmp/
+=======
+**/.env
+>>>>>>> c5e7039... fix typo in module source
