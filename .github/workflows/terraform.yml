@@ -34,4 +34,5 @@ jobs:
       - name: terraform-plan
         run: |
           cd gcp
+          export GOOGLE_APPLICATION_CREDENTIALS
           ../terraform apply
