@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 
-.PHONY: ngnix ipfs tor
+.PHONY: nginx ipfs tor
 
 all: nginx ipfs tor
 
