@@ -5,13 +5,11 @@ set -e
 if [ -z "$BUILD" ]; then echo "set BUILD" exit 1; fi
 dir=${1:-`dirname $0`}
 
-base=nginx:alpine
-image=localhost/nginx
+base=varnish
+image=localhost/varnish
 
 ctr=$(buildah from $base)
-for i in nginx ssl_params cache_options; do
-    buildah add $ctr $dir/$i.conf /etc/nginx/$i.conf
-done
+buildah add $ctr $dir/varnish.vcl /etc/varnish/varnish.vcl
 
 buildah commit $ctr $image
 buildah rm $ctr
