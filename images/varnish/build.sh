@@ -5,7 +5,7 @@ set -e
 if [ -z "$BUILD" ]; then echo "set BUILD" exit 1; fi
 dir=${1:-`dirname $0`}
 
-base=varnish
+base=docker.io/library/varnish
 image=localhost/varnish
 
 ctr=$(buildah from $base)

@@ -11,6 +11,7 @@ image=localhost/ipfs
 ctr=$(buildah from $base)
 buildah add $ctr $dir/docker-entrypoint.sh /docker-entrypoint.sh
 buildah run $ctr apk add go-ipfs
+buildah config --entrypoint '[ "/docker-entrypoint.sh" ]' $ctr
 
 buildah commit $ctr $image
 buildah rm $ctr

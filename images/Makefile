@@ -1,9 +1,9 @@
 SHELL=/bin/bash
 build=$(CURDIR)/build
 
-.PHONY: nginx ipfs tor
+.PHONY: nginx ipfs tor varnish
 
-all: exec nginx ipfs tor
+all: exec nginx ipfs tor varnish
 
 build:
 	if [ ! -d $(build) ]; then mkdir $(build); fi
@@ -16,6 +16,9 @@ ipfs: build
 
 tor: build
 	BUILD=$(build) $(CURDIR)/tor/build.sh
+
+varnish: build
+	BUILD=$(build) $(CURDIR)/varnish/build.sh
 
 exec:
 	for i in $(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh|setup\.sh'); do chmod +x $i; done
