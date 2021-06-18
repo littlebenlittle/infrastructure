@@ -1,12 +1,15 @@
 SHELL=/bin/bash
 build=$(CURDIR)/build
 
-.PHONY: nginx ipfs tor varnish
+.PHONY: certbot-cron nginx ipfs tor varnish
 
-all: exec nginx ipfs tor varnish
+all: exec certbot-cron nginx ipfs tor varnish
 
 build:
 	if [ ! -d $(build) ]; then mkdir $(build); fi
+
+certbot-cron: build
+	BUILD=$(build) $(CURDIR)/certbot-cron/build.sh
 
 nginx: build
 	BUILD=$(build) $(CURDIR)/nginx/build.sh
@@ -21,7 +24,7 @@ varnish: build
 	BUILD=$(build) $(CURDIR)/varnish/build.sh
 
 exec:
-	for i in $(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh|setup\.sh'); do chmod +x $i; done
+	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh'); do chmod +x $$i; done
 
 debug-config:
 	podman inspect -t image localhost/$(img) | jq --raw-output '.[0].Config'

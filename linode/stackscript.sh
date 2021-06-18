@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 dnf -y upgrade
 dnf -y install mosh iptables-services podman podman-compose podman-remote
 systemctl disable firewalld
@@ -16,8 +18,6 @@ iptables -A INPUT -p icmp -j ACCEPT
 iptables -A INPUT -p tcp -m multiport -m state --destination-ports 22,53,80,443,4001 --state NEW -j ACCEPT
 iptables -A INPUT -p udp -m multiport -m state --destination-ports 53,60000:60100    --state NEW -j ACCEPT
 iptables -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables_INPUT_denied: " --log-level 7
-
-iptables -D FORWARD -j REJECT --reject-with icmp-port-unreachable
 
 iptables -P INPUT DROP
 

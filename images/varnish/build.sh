@@ -5,11 +5,13 @@ set -e
 if [ -z "$BUILD" ]; then echo "set BUILD" exit 1; fi
 dir=${1:-`dirname $0`}
 
-base=docker.io/library/varnish
+base=alpine:3.13
 image=localhost/varnish
 
 ctr=$(buildah from $base)
-buildah add $ctr $dir/varnish.vcl /etc/varnish/varnish.vcl
+buildah add $ctr $dir/docker-entrypoint.sh /docker-entrypoint.sh
+buildah run $ctr apk add varnish
+buildah config --entrypoint '[ "/docker-entrypoint.sh" ]' $ctr
 
 buildah commit $ctr $image
 buildah rm $ctr
