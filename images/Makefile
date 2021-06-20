@@ -1,27 +1,31 @@
 SHELL=/bin/bash
 build=$(CURDIR)/build
 
-.PHONY: certbot-cron nginx ipfs tor varnish
+.PHONY: certbot nginx ipfs tor varnish
 
-all: exec certbot-cron nginx ipfs tor varnish
+all: exec certbot nginx ipfs tor varnish
 
 build:
-	if [ ! -d $(build) ]; then mkdir $(build); fi
+	@if [ ! -d $(build) ]; then mkdir $(build); fi
 
-certbot-cron: build
-	BUILD=$(build) $(CURDIR)/certbot-cron/build.sh
+certbot: build
+	@echo 'building certbot'; echo ''
+	@BUILD=$(build) $(CURDIR)/certbot/build.sh >/dev/null
 
 nginx: build
-	BUILD=$(build) $(CURDIR)/nginx/build.sh
+	@cd $(CURDIR)/nginx; if [ -z "$(runas)" ]; then make all build=$(build); else make $(runas) build=$(build); fi
 
 ipfs: build
-	BUILD=$(build) $(CURDIR)/ipfs/build.sh
+	@echo 'building ipfs'; echo ''
+	@BUILD=$(build) $(CURDIR)/ipfs/build.sh >/dev/null
 
 tor: build
-	BUILD=$(build) $(CURDIR)/tor/build.sh
+	@echo 'building tor'; echo ''
+	@BUILD=$(build) $(CURDIR)/tor/build.sh >/dev/null
 
 varnish: build
-	BUILD=$(build) $(CURDIR)/varnish/build.sh
+	@echo 'building varnish'; echo ''
+	@BUILD=$(build) $(CURDIR)/varnish/build.sh >/dev/null
 
 exec:
 	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh'); do chmod +x $$i; done

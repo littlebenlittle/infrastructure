@@ -15,7 +15,7 @@ images:
 package:
 	@if [ ! -d "$(build)" ]; then mkdir "$(build)"; fi
 	rsync -avz $(images)/build/ $(build)
-	rsync -avz $(images)/up.sh $(build)
+	rsync -avz $(images)/*-up.sh $(build)
 	if [ ! -z "$$REMOTE_DIR" ]; then rsync -avz $(build) $$REMOTE_DIR; fi
 
 push-secrets:
@@ -31,4 +31,8 @@ sync-nginx:
 
 sync-varnish:
 	cd $(images); make varnish
+	make package
+
+sync-certbot:
+	cd $(images); make certbot
 	make package

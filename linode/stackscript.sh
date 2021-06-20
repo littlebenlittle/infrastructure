@@ -63,5 +63,14 @@ systemctl restart sshd
 EOF
 chmod +x /root/setup.sh
 
-# TODO
-# drop traffic that isn't from a known load balancer CIDR
+mkdir /opt/nginx
+chown user /opt/nginx
+chgrp user /opt/nginx
+
+mkdir /var/www
+chown user /var/www
+chgrp user /var/www
+
+mkdir /etc/letsencrypt
+chown 101 /etc/letsencrypt
+chgrp 101 /etc/letsencrypt
