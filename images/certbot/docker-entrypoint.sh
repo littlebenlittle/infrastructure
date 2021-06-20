@@ -16,8 +16,8 @@ if [ ! -d $target/acme-challenge ]; then mkdir $target/acme-challenge; fi
 if [ ! -d /etc/letsencrypt/keys ]; then
 	options="-n --agree-tos --webroot -d $DOMAINS --email $EMAIL --webroot-path $target"
 	if [ -z "$TEST" ]
-		then su nginx certbot certonly $options
-		else su nginx certbot certonly --test-cert $options
+		then certbot certonly $options
+		else certbot certonly --test-cert $options
 	fi
 fi
 

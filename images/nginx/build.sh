@@ -20,4 +20,4 @@ done
 buildah commit $ctr $image
 buildah rm $ctr
 
-podman push $image oci-archive:$BUILD/$(echo $image | cut -d / -f 2)
+podman push $image oci-archive:$BUILD/nginx

@@ -14,8 +14,7 @@ images:
 
 package:
 	@if [ ! -d "$(build)" ]; then mkdir "$(build)"; fi
-	rsync -avz $(images)/build/ $(build)
-	rsync -avz $(images)/*-up.sh $(build)
+	rsync -avz $(images)/build/ --exclude .gitignore $(build)
 	if [ ! -z "$$REMOTE_DIR" ]; then rsync -avz $(build) $$REMOTE_DIR; fi
 
 push-secrets:

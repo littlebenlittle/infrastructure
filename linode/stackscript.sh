@@ -12,16 +12,17 @@ systemctl enable --now podman.socket
 dnf -y remove firewalld
 
 # ip4
+iptables -F
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -i lo   -j ACCEPT
 iptables -A INPUT -p icmp -j ACCEPT
-iptables -A INPUT -p tcp -m multiport -m state --destination-ports 22,53,80,443,4001 --state NEW -j ACCEPT
-iptables -A INPUT -p udp -m multiport -m state --destination-ports 53,60000:60100    --state NEW -j ACCEPT
-iptables -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables_INPUT_denied: " --log-level 7
+iptables -A INPUT -p tcp  -m multiport -m state --destination-ports 22,53,80,443,4001 --state NEW -j ACCEPT
+iptables -A INPUT -p udp  -m multiport -m state --destination-ports 53,60000:60100    --state NEW -j ACCEPT
 
 iptables -P INPUT DROP
 
 # drop all ip6
+ip6tables -F
 ip6tables -P INPUT DROP
 ip6tables -P FORWARD DROP
 ip6tables -P OUTPUT DROP
@@ -72,5 +73,5 @@ chown user /var/www
 chgrp user /var/www
 
 mkdir /etc/letsencrypt
-chown 101 /etc/letsencrypt
-chgrp 101 /etc/letsencrypt
+chown user /etc/letsencrypt
+chgrp user /etc/letsencrypt
