@@ -14,17 +14,20 @@ if [ ! -z "$fail" ]; then exit 1; fi
 if [ ! -d $target/acme-challenge ]; then mkdir $target/acme-challenge; fi
 
 if [ ! -d /etc/letsencrypt/keys ]; then
-	options="-n --agree-tos --webroot -d $DOMAINS --email $EMAIL --webroot-path $target"
+	mkdir /home/nginx
+	chown nginx /home/nginx
+	chgrp nginx /home/nginx
+	options="-n --agree-tos --webroot -d $DOMAINS --email $EMAIL --webroot-path $target --config-dir ~ --work-dir ~ --logs-dir ~"
 	if [ -z "$TEST" ]
-		then certbot certonly $options
-		else certbot certonly --test-cert $options
+		then su nginx -c "certbot certonly $options"
+		else su nginx -c "certbot certonly --test-cert $options"
 	fi
 fi
 
 mkdir /etc/crond
 target=/etc/crond/cron.00 
 cat >$target <<EOM
-${CRON:-0 0 6 * *} /usr/local/bin/certbot	sleep \$(python -c 'import random; print(random.randint(0,3600))'); certbot renew -q
+${CRON:-0 0 6 * *} /usr/local/bin/certbot	su nginx -c 'sleep \$(python -c "import random; print(random.randint(0,3600))"); certbot renew -q'
 EOM
 
 echo "contents of $target:"

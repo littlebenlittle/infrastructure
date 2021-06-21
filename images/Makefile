@@ -11,7 +11,7 @@ build:
 
 certbot: build
 	@echo 'building certbot'; echo ''
-	@BUILD=$(build)/user $(CURDIR)/certbot/build.sh >/dev/null
+	@BUILD=$(build)/root $(CURDIR)/certbot/build.sh >/dev/null
 
 nginx: nginx-user nginx-root
 

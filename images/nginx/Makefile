@@ -7,8 +7,8 @@ build-target:
 
 user: build-target
 	@echo 'building nginx for user'; echo ''
-	@BUILD=$(build) RUNAS=user $(CURDIR)/build.sh >/dev/null
+	@BUILD=$(build) $(CURDIR)/build.sh user >/dev/null
 
 root: build-target
 	@echo 'building nginx for root'; echo ''
-	@BUILD=$(build) RUNAS=root $(CURDIR)/build.sh >/dev/null
+	@BUILD=$(build) $(CURDIR)/build.sh root >/dev/null

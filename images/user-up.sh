@@ -11,10 +11,10 @@ podman run $options --name varnish \
 	-e BIND_ADDR=localhost:8000 \
 	localhost/varnish
 
-podman run $options --name tor \
-	-v tor_data:/var/lib/tor \
-	-e UPSTREAM=localhost:80 \
-	localhost/tor
+# podman run $options --name tor \
+# 	-v tor_data:/var/lib/tor \
+# 	-e UPSTREAM=localhost:80 \
+# 	localhost/tor
 
 podman run $options --name ipfs \
 	-v ipfs_data:/data/ipfs \
