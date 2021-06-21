@@ -9,8 +9,6 @@ case "$PROTO" in
 	;;
 esac
 
-chmod -x /docker-entrypoint.d/
-
 chown -R nginx /var/www
 chgrp -R nginx /var/www
 chown -R nginx /etc/letsencrypt

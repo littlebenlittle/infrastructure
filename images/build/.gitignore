@@ -1,7 +1,4 @@
 *
 !.gitignore
 !load.sh
-!user/
-!user/up.sh
-!root/
-!root/up.sh
+!up.sh
