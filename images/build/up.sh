@@ -30,8 +30,8 @@ elif [ `whoami` == root ]; then
 		if [ $? != 0 ]; then podman volume create $vol; fi
 	done
 	podman run -d --restart always --pod web --name nginx-http \
-		-v public:/var/www \
 		-e PROTO=http \
+		-v public:/var/www \
 		localhost/nginx
 	podman run -d --restart always --pod web --name nginx-https \
 		-v /opt/nginx:/opt/nginx \

@@ -9,7 +9,9 @@ case "$PROTO" in
 	;;
 esac
 
-chown -R nginx /var/www
-chgrp -R nginx /var/www
-chown -R nginx /etc/letsencrypt
-chgrp -R nginx /etc/letsencrypt
+for i in /var/www /etc/letsencrypt; do
+	if [ -d $i ]; then
+		chown -R nginx $i
+		chgrp -R nginx $i
+	fi
+done
