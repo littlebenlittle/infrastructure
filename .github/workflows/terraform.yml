@@ -1,6 +1,9 @@
 name: terraform
 
 on:
+  push:
+    branches:
+      - setup-initial-gcp-resources
   workflow_dispatch:
 
 jobs:
@@ -8,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: fetch
+      - name: fetch-terraform-binary
         run: |
           wget https://releases.hashicorp.com/terraform/0.15.3/terraform_0.15.3_linux_amd64.zip
       - name: check-hash
@@ -17,9 +20,19 @@ jobs:
       - name: unzip
         run: |
           unzip terraform_0.15.3_linux_amd64.zip
-      - name: list
+      - name: terraform-init
         run: |
-          ls
-      - name: tf-plan
+          cd gcp
+          ../terraform init
+      - name: terraform-configure
         run: |
-          ./terraform plan
+          echo "$TERRAFORM_SVCACCT_BASE64" | base64 -d >$GOOGLE_APPLICATION_CREDENTIALS
+          CONFIG=$PWD/gcp/terraform.tfvars
+          echo "$TERRAFORM_CONFIG_BASE64"  | base64 -d >$CONFIG
+          SED_SAFE_SVCACCT=$(echo $GOOGLE_APPLICATION_CREDENTIALS | sed -e 's/\//\\\//g')
+          sed -i -e "s/TERRAFORM_SVCACCT/$SED_SAFE_SVCACCT/" $CONFIG
+      - name: terraform-plan
+        run: |
+          cd gcp
+          export GOOGLE_APPLICATION_CREDENTIALS
+          ../terraform apply
