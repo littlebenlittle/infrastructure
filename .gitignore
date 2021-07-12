@@ -1,2 +1,5 @@
 **/.env
 tmp/
+.local/
+build/
+!images/build/
