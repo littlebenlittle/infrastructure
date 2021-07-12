@@ -14,10 +14,10 @@ if [ ! -z "$fail" ]; then exit 1; fi
 if [ ! -d $target/acme-challenge ]; then mkdir $target/acme-challenge; fi
 
 if [ ! -d /etc/letsencrypt/keys ]; then
-	mkdir /home/nginx
+	if [ ! -d /home/nginx ]; then mkdir /home/nginx; fi
 	chown nginx /home/nginx
 	chgrp nginx /home/nginx
-	options="-n --agree-tos --webroot -d $DOMAINS --email $EMAIL --webroot-path $target --config-dir ~ --work-dir ~ --logs-dir ~"
+	options="-n --agree-tos --webroot -d $DOMAINS --email $EMAIL --webroot-path $target --work-dir ~ --logs-dir ~"
 	if [ -z "$TEST" ]
 		then su nginx -c "certbot certonly $options"
 		else su nginx -c "certbot certonly --test-cert $options"

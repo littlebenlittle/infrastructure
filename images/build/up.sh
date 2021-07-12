@@ -59,7 +59,7 @@ elif [ `whoami` == root ]; then
 		-e PROTO=https \
 		localhost/nginx
 	podman run -d --restart always --pod web --name certbot \
-		-e DOMAINS=benlittledev.com \
+		-e DOMAINS='benlittledev.com,example-app.benlittledev.com' \
 		-e EMAIL=ben.little@benlittle.dev \
 		-v public:/var/www \
 		-v letsencrypt:/etc/letsencrypt \
