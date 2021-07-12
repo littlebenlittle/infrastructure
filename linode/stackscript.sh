@@ -64,14 +64,8 @@ systemctl restart sshd
 EOF
 chmod +x /root/setup.sh
 
-mkdir /opt/nginx
-chown user /opt/nginx
-chgrp user /opt/nginx
-
-mkdir /var/www
-chown user /var/www
-chgrp user /var/www
-
-mkdir /etc/letsencrypt
-chown user /etc/letsencrypt
-chgrp user /etc/letsencrypt
+for $d in /opt/nginx /var/www /etc/letsencrypt /var/downloads; do
+	mkdir $d
+	chown user $d
+	chgrp user $d
+done
