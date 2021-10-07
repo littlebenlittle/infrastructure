@@ -1,0 +1,16 @@
+name: build-images
+
+on:
+  push:
+    branches:
+      - images
+
+jobs:
+
+  build_oci_images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/get-oci-tools@v0
+      - name: fetch
+        run: make images

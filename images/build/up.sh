@@ -23,25 +23,6 @@ if [ `whoami` == user ]; then
 		-v /var/downloads:/var/downloads \
 		localhost/nginx
 
-	pass=`head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 32`
-	podman run -d --restart always --pod web --name node \
-		-e PORT=8002 \
-		-e PGUSER=postgres \
-		-e PGHOST=127.0.0.1 \
-		-e PGPASSWORD=$pass \
-		-e PGDATABASE=postgres \
-		-e PGPORT=5432 \
-		localhost/example-app
-	podman run -d --restart always --pod web -v pgdata:/opt/data --name pg \
-		-e POSTGRES_PASSWORD=$pass \
-		-e PGDATA=/opt/data \
-		docker.io/library/postgres
-	podman run --restart on-failure --pod web --name psql \
-		docker.io/library/postgres \
-		psql -h 127.0.0.1 -U postgres \
-		-c 'CREATE TABLE IF NOT EXISTS data ( username text, projects text[] );'
-	podman rm psql
-
 elif [ `whoami` == root ]; then
 	podman pod ls | grep web >/dev/null
 	if [ $? != 0 ]; then podman pod create --name web -p 80:80 -p 443:443; fi

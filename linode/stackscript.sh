@@ -3,7 +3,7 @@
 set -x
 
 dnf -y upgrade
-dnf -y install mosh iptables-services podman podman-compose podman-remote
+dnf -y install mosh iptables-services podman
 systemctl disable firewalld
 systemctl enable --now iptables
 systemctl enable --now ip6tables
@@ -64,7 +64,7 @@ systemctl restart sshd
 EOF
 chmod +x /root/setup.sh
 
-for $d in /opt/nginx /var/www /etc/letsencrypt /var/downloads; do
+for d in /opt/nginx /var/www /etc/letsencrypt /var/downloads; do
 	mkdir $d
 	chown user $d
 	chgrp user $d
