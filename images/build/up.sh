@@ -21,12 +21,13 @@ if [ `whoami` == user ]; then
 	podman run -d --restart always --pod web --name nginx \
 		-v /opt/nginx:/opt/nginx \
 		-v /var/downloads:/var/downloads \
+		-e IPFS_CID=QmWencx3h3rBHycY2XgzFmfegro7opNnsET8EUUqK8PY41 \
 		localhost/nginx
 
 elif [ `whoami` == root ]; then
 	podman pod ls | grep web >/dev/null
 	if [ $? != 0 ]; then podman pod create --name web -p 80:80 -p 443:443; fi
-	for vol in letsencrypt public; do
+	for vol in letsencrypt; do
 		podman volume ls | grep $vol >/dev/null
 		if [ $? != 0 ]; then podman volume create $vol; fi
 	done
@@ -40,8 +41,9 @@ elif [ `whoami` == root ]; then
 		-e PROTO=https \
 		localhost/nginx
 	podman run -d --restart always --pod web --name certbot \
-		-e DOMAINS='benlittledev.com,example-app.benlittledev.com' \
+		-e DOMAINS='benlittle.dev,benlittledev.com' \
 		-e EMAIL=ben.little@benlittle.dev \
+		-e TEST=1 \
 		-v public:/var/www \
 		-v letsencrypt:/etc/letsencrypt \
 		localhost/certbot

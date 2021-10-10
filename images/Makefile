@@ -34,7 +34,7 @@ varnish: build
 	@BUILD=$(build)/user $(CURDIR)/varnish/build.sh >/dev/null
 
 exec:
-	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh'); do chmod +x $$i; done
+	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh|configure.sh'); do chmod +x $$i; done
 
 debug-config:
 	podman inspect -t image localhost/$(img) | jq --raw-output '.[0].Config'

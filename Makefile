@@ -28,6 +28,14 @@ sync-nginx:
 	cd $(images); make nginx
 	make package
 
+sync-nginx-user:
+	cd $(images); make nginx-user
+	make package
+
+sync-nginx-root:
+	cd $(images); make nginx-root
+	make package
+
 sync-varnish:
 	cd $(images); make varnish
 	make package
@@ -35,3 +43,7 @@ sync-varnish:
 sync-certbot:
 	cd $(images); make certbot
 	make package
+
+exec:
+	cd $(images); make exec
+
