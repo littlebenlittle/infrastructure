@@ -8,12 +8,14 @@ if [ -z "$EMAIL"   ]; then echo "please set EMAIL   (=user@example.com)";       
 
 target=/var/www
 if [ ! -d $target ]; then echo "please mount $target"; fail=1; fi
+chown nginx /etc/letsencrypt
+chgrp nginx /etc/letsencrypt
 
 if [ ! -z "$fail" ]; then exit 1; fi
 
 if [ ! -d $target/acme-challenge ]; then mkdir $target/acme-challenge; fi
 
-if [ ! -d /etc/letsencrypt/keys ]; then
+if [ ! -d /etc/letsencrypt/live ]; then
 	if [ ! -d /home/nginx ]; then mkdir /home/nginx; fi
 	chown nginx /home/nginx
 	chgrp nginx /home/nginx
