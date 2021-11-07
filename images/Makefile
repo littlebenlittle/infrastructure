@@ -3,7 +3,7 @@ build=$(CURDIR)/build
 
 .PHONY: build certbot nginx ipfs tor varnish
 
-all: exec certbot nginx ipfs tor varnish
+all: exec certbot nginx ipfs
 
 build:
 	@if [ ! -d $(build)/user ]; then mkdir -p $(build)/user; fi
@@ -23,7 +23,7 @@ nginx-root: build
 
 ipfs: build
 	@echo 'building ipfs'; echo ''
-	@BUILD=$(build)/user $(CURDIR)/ipfs/build.sh >/dev/null
+	@BUILD=$(build)/root $(CURDIR)/ipfs/build.sh >/dev/null
 
 tor: build
 	@echo 'building tor'; echo ''
@@ -34,7 +34,7 @@ varnish: build
 	@BUILD=$(build)/user $(CURDIR)/varnish/build.sh >/dev/null
 
 exec:
-	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh'); do chmod +x $$i; done
+	for i in $$(find $(CURDIR) -type f | grep 'docker-entrypoint\.sh\|setup\.sh|configure.sh'); do chmod +x $$i; done
 
 debug-config:
 	podman inspect -t image localhost/$(img) | jq --raw-output '.[0].Config'
