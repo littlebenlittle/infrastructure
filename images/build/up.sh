@@ -42,7 +42,7 @@ elif [ `whoami` == root ]; then
 	podman run -d --restart always --pod web --name nginx-https \
 		-v letsencrypt:/etc/letsencrypt:ro \
 		-e PROTO=https \
-		-e IPFS_CID=QmWL5mVXWg9DKogMErAi1dFw38BmP97gJF1Q1kdkECZ9uw \
+		-e IPFS_CID=QmTf2nWHtPfiCapScA791bBcNKmyqRHmMNZV7c6VNPbU34 \
 		-e IPFS_GATEWAY=localhost:8001 \
 		localhost/nginx
 	podman run -d --restart always --pod web --name certbot \
