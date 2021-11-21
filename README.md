@@ -36,7 +36,7 @@ This setup uses IPFS for data management.
 Upload data over `ssh`:
 
 ```sh
-ssh -L '127.0.0.1:5000:127.0.0.1:5001' -L '127.0.0.1:8080:127.0.0.1:8080' $REMOTE_USER
+ssh -L '127.0.0.1:5001:127.0.0.1:5001' -L '127.0.0.1:8080:127.0.0.1:8080' $REMOTE_USER
 ```
 
 Then open your browser to https://127.0.0.1:5000 to access the IPFS interface.

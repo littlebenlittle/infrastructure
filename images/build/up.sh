@@ -2,6 +2,8 @@
 
 set -x
 
+IPFS_CID=QmfBuWQFxu4eS5fCNPdWtSY8Yn2UFwN2kerqRATRwJDJ89
+
 if [ `whoami` == user ]; then
 	podman pod ls | grep web >/dev/null
 	if [ $? == 0 ]; then podman pod stop web; podman pod rm web; fi
@@ -20,7 +22,7 @@ if [ `whoami` == user ]; then
 		localhost/ipfs
 	podman run -d --restart always --pod web --name nginx \
 		-e PORT=9080 \
-		-e IPFS_CID=QmWencx3h3rBHycY2XgzFmfegro7opNnsET8EUUqK8PY41 \
+		-e IPFS_CID=$IPFS_CID \
 		localhost/nginx
 
 elif [ `whoami` == root ]; then
@@ -42,7 +44,7 @@ elif [ `whoami` == root ]; then
 	podman run -d --restart always --pod web --name nginx-https \
 		-v letsencrypt:/etc/letsencrypt:ro \
 		-e PROTO=https \
-		-e IPFS_CID=QmTf2nWHtPfiCapScA791bBcNKmyqRHmMNZV7c6VNPbU34 \
+		-e IPFS_CID=$IPFS_CID \
 		-e IPFS_GATEWAY=localhost:8001 \
 		localhost/nginx
 	podman run -d --restart always --pod web --name certbot \
